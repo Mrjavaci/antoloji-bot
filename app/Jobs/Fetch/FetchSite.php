@@ -3,18 +3,19 @@
 namespace App\Jobs\Fetch;
 
 use App\Contracts\FetchInterface;
-use App\Jobs\Parse\BaseSitemapParse;
+use App\Jobs\Parse\PoemParse;
 use Exception;
-use Illuminate\Support\Collection;
+use Illuminate\Queue\Jobs\Job;
+use Illuminate\Queue\Jobs\SyncJob;
 use Illuminate\Support\Facades\Http;
 
-class FetchBaseSitemap implements FetchInterface
+class FetchSite extends SyncJob implements FetchInterface
 {
     private $data;
 
     public function __construct(private $url = null)
     {
-        !is_null($this->getUrl()) ?: $this->setUrl(config('antoloji.base.xml'));
+        !is_null($this->getUrl()) ?: throw new Exception('Site url should not null');
     }
 
     public function getUrl()
@@ -38,7 +39,7 @@ class FetchBaseSitemap implements FetchInterface
      */
     public function parse(): self
     {
-        $this->setData((new BaseSitemapParse($this->getData()))->parse()->getData());
+        $this->setData((new PoemParse($this->getData()))->parse());
         return $this;
     }
 

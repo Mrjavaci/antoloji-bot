@@ -24,7 +24,7 @@ class BaseSitemapParse implements ParseInterface
     public function parse(): self
     {
         $this->setData(json_decode(json_encode(simplexml_load_string($this->getData()))));
-        $this->setData(collect($this->getData()->sitemap));
+        $this->setData(collect($this->getData()->sitemap ?? $this->getData()->url));
         return $this;
     }
 
