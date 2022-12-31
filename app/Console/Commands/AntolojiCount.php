@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\Insert\InsertPoemJob;
 use App\Models\Poems;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class AntolojiCount extends Command
 {
@@ -28,7 +30,12 @@ class AntolojiCount extends Command
      */
     public function handle()
     {
-        $this->warn(Poems::query()->count());
+        try {
+            $this->warn('Database -> ' . Poems::query()->count());
+        } catch (\Exception $exception) {
+
+        }
+        $this->warn('Json file -> ' . collect(json_decode(Storage::get(InsertPoemJob::FILE_NAME), 1))->count());
         return Command::SUCCESS;
     }
 }

@@ -16,9 +16,16 @@ return [
     'fetchOwnPoemOfUser' => true,
     /*
     |--------------------------------------------------------------------------
-    | ANTOLOJİ.COM'da taratılan şiirlerin ayrıca json dosyasına kaydedilmesi
+    | ANTOLOJİ.COM'da taratılan şiirlerin json dosyasına kaydedilmesi
     |--------------------------------------------------------------------------
     */
-    'saveAsJson' => true
+    'saveAsJson' => true,
+    /*
+    |--------------------------------------------------------------------------
+    | ANTOLOJİ.COM'da taratılan şiirlerin database'e kaydedilmesi
+    |--------------------------------------------------------------------------
+    */
+    'saveAsDatabase' => false
+
 
 ];

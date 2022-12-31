@@ -23,7 +23,7 @@ class AntolojiFetchService
 
             $cli = $this->commandInterface;
             Event::listen(function (PoemCreated $event) use ($cli) {
-                $cli->info($event->getPoem()->getTitle() . ' Kaydedildi!');
+                $cli->info($event->getPoem()->get('title') . ' Kaydedildi!');
             });
 
             /**

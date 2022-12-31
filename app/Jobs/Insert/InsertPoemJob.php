@@ -26,6 +26,9 @@ class InsertPoemJob
             $json[] = $serializedData;
             Storage::disk()->put(self::FILE_NAME, json_encode($json));
         }
-        return Poems::query()->create($serializedData);
+        if (config('antoloji.saveAsDatabase')) {
+            Poems::query()->create($serializedData);
+        }
+        return collect($serializedData);
     }
 }

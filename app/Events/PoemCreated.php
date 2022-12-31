@@ -10,6 +10,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class PoemCreated
 {
@@ -20,7 +21,7 @@ class PoemCreated
      *
      * @return void
      */
-    public function __construct(public Poems $poem)
+    public function __construct(public Collection $poem)
     {
         //
     }
@@ -28,7 +29,7 @@ class PoemCreated
     /**
      * @return Poems
      */
-    public function getPoem(): Poems
+    public function getPoem(): Collection
     {
         return $this->poem;
     }
@@ -36,7 +37,7 @@ class PoemCreated
     /**
      * @param Poems $poem
      */
-    public function setPoem(Poems $poem): void
+    public function setPoem(Collection $poem): void
     {
         $this->poem = $poem;
     }
