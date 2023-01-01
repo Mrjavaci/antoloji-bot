@@ -108,6 +108,7 @@ class PoemParse implements ParseInterface
             return $this;
         }
         $this->isOwnPoemOfUser = str_contains($this->body, 'Kayıt Tarihi');
+
         return $this;
     }
 

@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\HistoryTpyes;
 use App\Events\PoemCreated;
 use App\Jobs\Fetch\FetchBaseSitemap;
+use App\Jobs\History\HistorySaveJob;
 use App\Jobs\ProcessAntoloji;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -34,6 +36,13 @@ class AntolojiFetchService
                 ->parse()
                 ->getData();
             $baseSitemap->map(function ($pageUrl) {
+
+
+                (new HistorySaveJob())
+                    ->setOperationKey(HistoryTpyes::MAIN_SITEMAP)
+                    ->setValue($pageUrl->loc)
+                    ->save();
+
                 /**
                  * @var $subSitemap Collection
                  */
@@ -42,6 +51,11 @@ class AntolojiFetchService
                     ->parse()
                     ->getData();
                 $subSitemap->map(function ($url) {
+                    (new HistorySaveJob())
+                        ->setOperationKey(HistoryTpyes::SUB_SITEMAP)
+                        ->setValue($url->loc)
+                        ->save();
+
                     ProcessAntoloji::dispatch($url->loc);
                 });
             });
