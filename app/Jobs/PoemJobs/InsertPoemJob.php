@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Insert;
+namespace App\Jobs\PoemJobs;
 
 use App\Jobs\Parse\PoemParse;
 use App\Models\Poems;

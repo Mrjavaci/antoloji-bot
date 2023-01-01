@@ -2,13 +2,13 @@
 
 namespace App\Jobs\History;
 
-use App\Enums\HistoryTpyes;
+use App\Enums\HistoryTypes;
 use Illuminate\Support\Facades\Storage;
 
 class HistorySaveJob
 {
     const FILE_NAME = 'history.json';
-    protected HistoryTpyes $operationKey;
+    protected HistoryTypes $operationKey;
 
     protected $value;
 
@@ -21,13 +21,13 @@ class HistorySaveJob
     }
 
 
-    public function getOperationKey(): HistoryTpyes
+    public function getOperationKey(): HistoryTypes
     {
         return $this->operationKey;
     }
 
 
-    public function setOperationKey(HistoryTpyes $operationKey): self
+    public function setOperationKey(HistoryTypes $operationKey): self
     {
         $this->operationKey = $operationKey;
         return $this;
@@ -46,7 +46,7 @@ class HistorySaveJob
         return $this;
     }
 
-    public function getCurrent(HistoryTpyes $type)
+    public function getCurrent(HistoryTypes $type)
     {
         return json_decode(Storage::get(self::FILE_NAME), 1)[$type->value()];
     }

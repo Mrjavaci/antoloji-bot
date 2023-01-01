@@ -3,7 +3,7 @@
 namespace App\Jobs\Fetch;
 
 use App\Contracts\FetchInterface;
-use App\Enums\HistoryTpyes;
+use App\Enums\HistoryTypes;
 use App\Jobs\History\HistorySaveJob;
 use App\Jobs\Parse\PoemParse;
 use Exception;
@@ -43,8 +43,12 @@ class FetchSite extends SyncJob implements FetchInterface
     {
         $this->setData((new PoemParse($this->getData()))->parse());
         (new HistorySaveJob())
-            ->setOperationKey(HistoryTpyes::POEM_NAME)
+            ->setOperationKey(HistoryTypes::POEM_NAME)
             ->setValue($this->getData()->getTitle())
+            ->save();
+        (new HistorySaveJob())
+            ->setOperationKey(HistoryTypes::POEM_WRITER)
+            ->setValue($this->getData()->getWriter())
             ->save();
         return $this;
     }

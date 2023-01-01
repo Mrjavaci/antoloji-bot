@@ -4,11 +4,10 @@ namespace App\Jobs;
 
 use App\Events\PoemCreated;
 use App\Jobs\Fetch\FetchSite;
-use App\Jobs\Insert\InsertPoemJob;
 use App\Jobs\Parse\PoemParse;
+use App\Jobs\PoemJobs\InsertPoemJob;
 use App\Models\Poems;
 use Illuminate\Bus\Queueable;
-use Illuminate\Console\Command;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;

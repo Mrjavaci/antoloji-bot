@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\Insert\InsertPoemJob;
+use App\Jobs\PoemJobs\InsertPoemJob;
 use App\Models\Poems;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
