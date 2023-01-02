@@ -25,7 +25,7 @@ return [
     | ANTOLOJİ.COM'da taratılan şiirlerin database'e kaydedilmesi
     |--------------------------------------------------------------------------
     */
-    'saveAsDatabase' => false
+    'saveAsDatabase' => true
 
 
 ];

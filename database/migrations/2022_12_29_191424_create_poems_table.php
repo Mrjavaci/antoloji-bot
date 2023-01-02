@@ -14,8 +14,8 @@ return new class extends Migration {
     {
         Schema::create('poems', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->unique();
-            $table->string('body')->unique();
+            $table->string('title');
+            $table->text('body');
             $table->string('writer');
             $table->timestamps();
         });

@@ -11,17 +11,6 @@ class Poems extends Model
 
     protected $guarded = [];
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($poems) {
-            $poem = Poems::query()
-                ->where('title', '=', $poems->title)
-                ->where('body', '', $poems->body);
-
-            return $poem->exists();
-        });
-    }
 
     public function getTitle()
     {

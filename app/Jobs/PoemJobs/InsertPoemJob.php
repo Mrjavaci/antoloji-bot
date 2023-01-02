@@ -17,9 +17,9 @@ class InsertPoemJob
     public function insert()
     {
         $serializedData = [
-            'title' => $this->data->getTitle(),
-            'body' => $this->data->getBody(),
-            'writer' => $this->data->getWriter()
+            'title' => html_entity_decode($this->data->getTitle(), ENT_QUOTES | ENT_HTML401, 'UTF-8'),
+            'body' => html_entity_decode($this->data->getBody(), ENT_QUOTES | ENT_HTML401, 'UTF-8'),
+            'writer' => html_entity_decode($this->data->getWriter(), ENT_QUOTES | ENT_HTML401, 'UTF-8')
         ];
         if (config('antoloji.saveAsJson')) {
             $json = json_decode(Storage::get(self::FILE_NAME) ?? "{}", true);
