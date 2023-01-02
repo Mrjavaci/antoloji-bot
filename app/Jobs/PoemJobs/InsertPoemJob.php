@@ -21,14 +21,21 @@ class InsertPoemJob
             'body' => html_entity_decode($this->data->getBody(), ENT_QUOTES | ENT_HTML401, 'UTF-8'),
             'writer' => html_entity_decode($this->data->getWriter(), ENT_QUOTES | ENT_HTML401, 'UTF-8')
         ];
-        if (config('antoloji.saveAsJson')) {
+        $exception = false;
+        if (config('antoloji.saveAsDatabase')) {
+            try {
+                Poems::query()->create($serializedData);
+            } catch (\Exception $e) {
+                $exception = true;
+            }
+        }
+
+        if (!$exception && config('antoloji.saveAsJson')) {
             $json = json_decode(Storage::get(self::FILE_NAME) ?? "{}", true);
             $json[] = $serializedData;
             Storage::disk()->put(self::FILE_NAME, json_encode($json));
         }
-        if (config('antoloji.saveAsDatabase')) {
-            Poems::query()->create($serializedData);
-        }
+
         return collect($serializedData);
     }
 }

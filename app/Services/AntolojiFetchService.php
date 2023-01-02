@@ -17,6 +17,7 @@ use Symfony\Component\Console\Command\Command as CommandAlias;
 class AntolojiFetchService
 {
     protected $seekToPoem = null;
+    protected $lastDeleted = null;
 
     public function __construct(public Command $commandInterface)
     {
@@ -39,14 +40,13 @@ class AntolojiFetchService
                 ->fetch()
                 ->parse()
                 ->getData();
-            $seekToPoem = null;
+
             if ($historyMainSitemap = HistoryGetCurrent::getCurrent(HistoryTypes::MAIN_SITEMAP)) {
                 $baseSitemapCount = $baseSitemap->where('loc', '=', $historyMainSitemap)->toArray();
                 $baseSitemap = $baseSitemap->forget($this->getNumbers(array_keys($baseSitemapCount)[0]));
                 $this->commandInterface->info('Seek to history -> ' . HistoryGetCurrent::getCurrent(HistoryTypes::POEM_NAME));
                 $this->seekToPoem = HistoryGetCurrent::getCurrent(HistoryTypes::SUB_SITEMAP);
             }
-
             foreach ($baseSitemap as $pageUrl) {
                 (new HistorySaveJob())
                     ->setOperationKey(HistoryTypes::MAIN_SITEMAP)
@@ -60,12 +60,18 @@ class AntolojiFetchService
                     ->fetch()
                     ->parse()
                     ->getData();
+
                 foreach ($subSitemap as $url) {
                     if (!is_null($this->seekToPoem) && $this->seekToPoem !== $url->loc) {
                         //son kapanmadan önce eksik veri girilme ihtimaline karşı son girileni siliyoruz!
-                        (new DeletePoemJob(HistoryGetCurrent::getCurrent(HistoryTypes::POEM_NAME), HistoryGetCurrent::getCurrent(HistoryTypes::POEM_WRITER)))->delete();
+                        if (is_null($this->lastDeleted)) {
+                            (new DeletePoemJob(HistoryGetCurrent::getCurrent(HistoryTypes::POEM_NAME), HistoryGetCurrent::getCurrent(HistoryTypes::POEM_WRITER)))->delete();
+                            $this->lastDeleted = HistoryGetCurrent::getCurrent(HistoryTypes::POEM_NAME);
+                        }
+
                         continue;
                     }
+
                     $this->seekToPoem = null;
                     (new HistorySaveJob())
                         ->setOperationKey(HistoryTypes::SUB_SITEMAP)
