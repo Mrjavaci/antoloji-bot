@@ -7,33 +7,35 @@ use App\Enums\HistoryTypes;
 use App\Jobs\History\HistorySaveJob;
 use App\Jobs\Parse\PoemParse;
 use Exception;
-use Illuminate\Queue\Jobs\Job;
-use Illuminate\Queue\Jobs\SyncJob;
 use Illuminate\Support\Facades\Http;
 
-class FetchSite extends SyncJob implements FetchInterface
+class FetchSite implements FetchInterface
 {
     private $data;
 
-    public function __construct(private $url = null)
+    public function setUrl($url): self
     {
-        !is_null($this->getUrl()) ?: throw new Exception('Site url should not null');
+        $this->url = $url;
+        return $this;
+    }
+
+    public function fetch(): self
+    {
+        try {
+            $this->setData(Http::get($this->getUrl())->body());
+        } catch (Exception $exception) {
+            (new HistorySaveJob())
+                ->setOperationKey(HistoryTypes::LAST_ERROR_LOG)
+                ->setValue($exception->getMessage())
+                ->save();
+            $this->fetch();
+        }
+        return $this;
     }
 
     public function getUrl()
     {
         return $this->url;
-    }
-
-    public function setUrl($url): void
-    {
-        $this->url = $url;
-    }
-
-    public function fetch(): self
-    {
-        $this->setData(Http::get($this->getUrl())->body());
-        return $this;
     }
 
     /**

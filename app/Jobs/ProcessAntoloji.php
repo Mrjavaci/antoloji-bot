@@ -37,7 +37,8 @@ class ProcessAntoloji implements ShouldQueue
     {
 
         /** @var PoemParse $data */
-        $data = (new FetchSite($this->url))
+        $data = (new FetchSite())
+            ->setUrl($this->url)
             ->fetch()
             ->parse()
             ->getData();
