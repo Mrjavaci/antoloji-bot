@@ -1,0 +1,41 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Get Poem Count",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "api"
+        }
+    ],
+    "paths": {
+        "/count-of-poems": {
+            "get": {
+                "tags": [
+                    "Antoloji"
+                ],
+                "summary": "Get Poem Count",
+                "operationId": "GetPoemCount",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "An result object.",
+                                        "value": {
+                                            "count": 72359
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
