@@ -1,4 +1,7 @@
 <?php
+
+use App\Enums\DatabaseTypes;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -25,7 +28,13 @@ return [
     | ANTOLOJİ.COM'da taratılan şiirlerin database'e kaydedilmesi
     |--------------------------------------------------------------------------
     */
-    'saveAsDatabase' => true
+    'saveAsDatabase' => true,
+    /*
+    |--------------------------------------------------------------------------
+    | Web sunucusunun varsayılan db'si (mysql - json)
+    |--------------------------------------------------------------------------
+    */
+    'defaultDatabase' => DatabaseTypes::MySQL
 
 
 ];
