@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\GetPoemCountController;
+use App\Http\Controllers\GetPoemOfWriterController;
+use App\Http\Controllers\GetRandomPoemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/count-of-poems', [GetPoemCountController::class, 'get']);
+Route::get('/random-poem', [GetRandomPoemController::class, 'get']);
+
+
+Route::get('/get-poem-of-writer', [GetPoemOfWriterController::class, 'get']);
