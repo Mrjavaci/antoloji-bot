@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Database\GetPoemCountService;
+use App\Jobs\PoemJobs\Database\GetPoemCountJob;
 use OpenApi\Annotations as OA;
 
 /**
@@ -27,6 +27,6 @@ class GetPoemCountController extends Controller
      */
     function get()
     {
-        return response()->json(['count' => GetPoemCountService::dispatchSync()]);
+        return response()->json(['count' => GetPoemCountJob::dispatchSync()]);
     }
 }
